@@ -12,10 +12,11 @@
         // loop de loop
 
         while (i--) {
-            var wH = window.innerHeight;
-            var boundingRect = images[i].getBoundingClientRect();
+            var srcs;
+            var img = images[i];
+            var boundingRect = img.getBoundingClientRect();
             var offset = 100;
-            var yPositionTop = boundingRect.top - wH;
+            var yPositionTop = boundingRect.top - window.innerHeight;
             var yPositionBottom = boundingRect.bottom;
 
             // if the top of the image is within 100px from the bottom of the viewport
@@ -26,20 +27,20 @@
 
                 // replace the src with the data-src
 
-                if (images[i].getAttribute("data-src")) {
-                    images[i].src = images[i].getAttribute("data-src");
+                if (srcs = img.getAttribute("data-src")) {
+                    img.src = srcs;
                 }
 
                 // replace the srcset with the data-srcset
 
-                if (images[i].getAttribute("data-srcset")) {
-                    images[i].srcset = images[i].getAttribute("data-srcset");
+                if (srcs = img.getAttribute("data-srcset")) {
+                    img.srcset = srcs;
                 }
 
                 // replace the source srcset's with the data-srcset's
 
-                if (images[i].parentElement.tagName === "PICTURE") {
-                    var sources = images[i].parentElement.querySelectorAll("source");
+                if (img.parentElement.tagName === "PICTURE") {
+                    var sources = img.parentElement.querySelectorAll("source");
                     var j = sources.length;
                     while (j--) {
                         sources[j].srcset = sources[j].getAttribute("data-srcset");
@@ -48,7 +49,7 @@
 
                 // wait until the new image is loaded
 
-                images[i].addEventListener('load', function() {
+                img.addEventListener('load', function() {
                     this.classList.remove("lazyestload");
                 });
 
