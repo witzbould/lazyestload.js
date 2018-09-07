@@ -1,23 +1,23 @@
-! function () {
+;(function () {
 
     // main function wrapper
 
-    function lazyestload() {
+    const lazyestload = () => {
 
         // all the images with class lazyestload
 
-        var images = document.querySelectorAll("img.lazyestload");
-        var i = images.length;
+        const images = document.querySelectorAll("img.lazyestload");
+        let i = images.length;
 
         // loop de loop
 
         while (i--) {
-            var srcs;
-            var img = images[i];
-            var boundingRect = img.getBoundingClientRect();
-            var offset = 100;
-            var yPositionTop = boundingRect.top - window.innerHeight;
-            var yPositionBottom = boundingRect.bottom;
+            let srcs;
+            const img = images[i];
+            const boundingRect = img.getBoundingClientRect();
+            const offset = 100;
+            const yPositionTop = boundingRect.top - window.innerHeight;
+            const yPositionBottom = boundingRect.bottom;
 
             // if the top of the image is within 100px from the bottom of the viewport
             // and if the bottom of the image is within 100px from the top of the viewport
@@ -40,18 +40,12 @@
                 // replace the source srcset's with the data-srcset's
 
                 if (img.parentElement.tagName === "PICTURE") {
-                    var sources = img.parentElement.querySelectorAll("source");
-                    var j = sources.length;
-                    while (j--) {
-                        sources[j].srcset = sources[j].getAttribute("data-srcset");
-                    }
+                    img.parentElement.querySelectorAll("source").forEach((el) => el.srcset = el.getAttribute("data-srcset"));
                 }
 
                 // wait until the new image is loaded
 
-                img.addEventListener('load', function() {
-                    this.classList.remove("lazyestload");
-                });
+                img.addEventListener('load', (event) => event.target.classList.remove("lazyestload"));
 
             }
         }
@@ -59,14 +53,14 @@
 
     // run on debounced scroll event and once on load
 
-    let b;
+    let timeoutId;
 
     // debounced scroll event
 
-    window.addEventListener("scroll", function () {
-        clearTimeout(b);
-        b = setTimeout(lazyestload, 200);
+    window.addEventListener("scroll", () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(lazyestload, 200);
     });
 
     lazyestload();
-}();
+})();
