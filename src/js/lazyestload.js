@@ -1,17 +1,4 @@
-! function() {
-
-    // debounced scroll event
-
-    function _scroll(a) {
-        let b;
-
-        window.addEventListener("scroll", function () {
-            clearTimeout(b);
-            b = setTimeout(a, 200);
-        });
-
-        a();
-    }
+! function () {
 
     // main function wrapper
 
@@ -71,5 +58,14 @@
 
     // run on debounced scroll event and once on load
 
-    _scroll(lazyestload);
+    let b;
+
+    // debounced scroll event
+
+    window.addEventListener("scroll", function () {
+        clearTimeout(b);
+        b = setTimeout(lazyestload, 200);
+    });
+
+    lazyestload();
 }();
