@@ -2,11 +2,15 @@
 
     // debounced scroll event
 
-    function _scroll(a, b) {
-        return window.addEventListener("scroll", function() {
+    function _scroll(a) {
+        let b;
+
+        window.addEventListener("scroll", function () {
             clearTimeout(b);
             b = setTimeout(a, 200);
-        }), a;
+        });
+
+        a();
     }
 
     // main function wrapper
@@ -33,13 +37,13 @@
 
             if (yPositionTop <= offset && yPositionBottom >= -offset) {
 
-                // replace the src with the data-src      
+                // replace the src with the data-src
 
                 if (images[i].getAttribute("data-src")) {
                     images[i].src = images[i].getAttribute("data-src");
                 }
 
-                // replace the srcset with the data-srcset  
+                // replace the srcset with the data-srcset
 
                 if (images[i].getAttribute("data-srcset")) {
                     images[i].srcset = images[i].getAttribute("data-srcset");
@@ -67,7 +71,5 @@
 
     // run on debounced scroll event and once on load
 
-    _scroll(function() {
-        lazyestload();
-    })();
+    _scroll(lazyestload);
 }();
